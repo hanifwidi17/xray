@@ -27,27 +27,36 @@ apt upgrade
 apt install -y bzip2 gzip coreutils screen curl unzip
 sleep 2
 echo -e "Install Nginx..."
+sleep 2
 apt install nginx
 systemctl stop nginx
 rm /etc/nginx/sites-available/default
 rm /etc/nginx/sites-enabled/default
-wget -O /etc/nginx/conf.d/vps.conf --no-check-certificate https://raw.githubusercontent.com/hanifwidi17/libermod/main/music.mp3
-wget -O /www/libernet/system.php --no-check-certificate https://raw.githubusercontent.com/hanifwidi17/libermod/main/system.php
-wget -O /www/libernet/navbar.php --no-check-certificate https://raw.githubusercontent.com/hanifwidi17/libermod/main/navbar.php
-wget -O /www/libernet/index.php --no-check-certificate https://raw.githubusercontent.com/hanifwidi17/libermod/main/index.php
-wget -O /www/libernet/head.php --no-check-certificate https://raw.githubusercontent.com/hanifwidi17/libermod/main/head.php
-wget -O /www/libernet/footer.php --no-check-certificate https://raw.githubusercontent.com/hanifwidi17/libermod/main/footer.php
-wget -O /www/libernet/config.php --no-check-certificate https://raw.githubusercontent.com/hanifwidi17/libermod/main/config.php
-wget -O /www/libernet/about.php --no-check-certificate https://raw.githubusercontent.com/hanifwidi17/libermod/main/about.php
-wget -O /www/libernet/img/re.jpg --no-check-certificate https://raw.githubusercontent.com/hanifwidi17/libermod/main/re.jpg
-wget -O /www/libernet/assets/img/backgrounds/re.img --no-check-certificate https://raw.githubusercontent.com/hanifwidi17/libermod/main/re.jpg
-wget -O /www/libernet/lib/vendor/bootstrap/css/bootstrap.min.css --no-check-certificate https://raw.githubusercontent.com/hanifwidi17/libermod/main/bootstrap.min.css
-wget -O /root/libernet/bin/ping-loop.sh --no-check-certificate https://raw.githubusercontent.com/hanifwidi17/libermod/main/ping-loop.sh
-} &> log-install.txt
-rm /www/libernet.zip
-rm install-libermod
-echo -e ""
-echo -e ""
-echo -e "PROSES PEMASANGAN LIBERMOD SELESAI!"
-echo -e "SILAHKAN CLEAR CACHE BROWSER ANDA SEBELUM MENGAKSES LIBERNET"
-echo -e ""
+wget -O /etc/nginx/conf.d/vps.conf --no-check-certificate https://raw.githubusercontent.com/hanifwidi17/xray/main/vps.conf
+wget -O /etc/nginx/conf.d/xray.conf --no-check-certificate https://raw.githubusercontent.com/hanifwidi17/xray/main/xray.conf
+sleed 2
+echo -e "Import Cert"
+sleep 2
+mkdir /etc/xray
+wget -O /etc/xray/xray.key --no-check-certificate https://raw.githubusercontent.com/hanifwidi17/xray/main/xray.key
+wget -O /etc/xray/xray.crt --no-check-certificate https://raw.githubusercontent.com/hanifwidi17/xray/main/xray.crt
+sleep 2
+echo -e "Install Xray"
+sleep 2
+bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install
+rm /etc/systemd/system/xray@.service.d/10-donot_touch_single_conf.conf
+cat >/etc/systemd/system/xray@.service.d/10-donot_touch_single_conf.conf <<EOF
+[Service]
+ExecStart=
+ExecStart=/usr/local/bin/xray run -config /etc/xray/%i.json
+EOF
+wget -O /usr/bin/add-trojan --no-check-certificate https://raw.githubusercontent.com/hanifwidi17/xray/main/add-trojan
+wget -O /usr/bin/add-ws --no-check-certificate https://raw.githubusercontent.com/hanifwidi17/xray/main/add-ws
+wget -O /usr/bin/exp-trial --no-check-certificate https://raw.githubusercontent.com/hanifwidi17/xray/main/exp-trial
+wget -O /usr/bin/exp-akun --no-check-certificate https://raw.githubusercontent.com/hanifwidi17/xray/main/exp-akun
+wget -O /usr/bin/renew-trojan --no-check-certificate https://raw.githubusercontent.com/hanifwidi17/xray/main/renew-trojan
+wget -O /usr/bin/renew-ws --no-check-certificate https://raw.githubusercontent.com/hanifwidi17/xray/main/renew-ws
+wget -O /etc/xray/trojan.json --no-check-certificate https://raw.githubusercontent.com/hanifwidi17/xray/main/trojan.json
+wget -O /etc/xray/trojan-grpc.json --no-check-certificate https://raw.githubusercontent.com/hanifwidi17/xray/main/trojan-grpc.json
+wget -O /etc/xray/vmess.json --no-check-certificate https://raw.githubusercontent.com/hanifwidi17/xray/main/vmess.json
+wget -O /etc/xray/vmess-grpc.json --no-check-certificate https://raw.githubusercontent.com/hanifwidi17/xray/main/vmess-grpc.json
