@@ -76,3 +76,14 @@ systemctl enable xray@trojan-grpc
 systemctl enable xray@vmess
 systemctl enable xray@vmess-grpc
 systemctl restart nginx
+sleep 2
+echo -e "Install Speedtest"
+sleep 2
+apt-get install curl
+curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.deb.sh | bash
+apt-get install speedtest
+sleep 2
+echo -e "Installasi Sukses, reboot..."
+sleep 2
+rm install.sh
+reboot
