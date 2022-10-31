@@ -1,0 +1,16 @@
+#!/bin/bash
+read -rp "User: " user
+read -rp "Masa Aktif: " masaaktif
+exp=$(grep -w "^### $user" "/etc/xray/vmess.json" | cut -d ' ' -f 3)
+exp_h=$(grep -w "^### $user" "/etc/xray/vmess.json" | cut -d ' ' -f 4)
+now=$(date +%Y-%m-%d)
+d1=$(date -d "$exp" +%s)
+d2=$(date -d "$now" +%s)
+exp2=$(( (d1 - d2) / 86400 ))
+exp3=$(($exp2 + $masaaktif))
+exp4=`date -d "$exp3 days" +"%Y-%m-%d"`
+sed -i "s/### $user $exp $exp_h/### $user $exp4 $exp_h/g" /etc/xray/vmess.json
+sed -i "s/### $user $exp $exp_h/### $user $exp4 $exp_h/g" /etc/xray/vmess-grpc.json
+systemctl restart xray
+systemctl restart xray@vmess
+systemctl restart xray@vmess-grpc

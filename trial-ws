@@ -1,0 +1,15 @@
+#!/bin/bash
+red='\e[1;31m'
+green='\e[0;32m'
+NC='\e[0m'
+read -rp "User: " -e user
+read -rp "Key: " -e key
+read -rp "Expired Trial: " -e masaaktif
+exp=`date -d "$masaaktif minute" +"%T"`
+sed -i '/#vmess$/a\### '"$user $exp"'\
+},{"id": "'""$key""'","alterid": '0',"email": "'""$user""'"' /etc/xray/vmess.json
+sed -i '/#vmessgrpc$/a\### '"$user $exp"'\
+},{"id": "'""$key""'","alterid": '0',"email": "'""$user""'"' /etc/xray/vmess-grpc.json
+systemctl restart xray
+systemctl restart xray@vmess
+systemctl restart xray@vmess-grpc

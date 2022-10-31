@@ -1,0 +1,15 @@
+#!/bin/bash
+red='\e[1;31m'
+green='\e[0;32m'
+NC='\e[0m'
+read -rp "User: " -e user
+read -rp "Key: " -e key
+read -rp "Expired Trial: " -e masaaktif
+exp=`date -d "$masaaktif minute" +"%T"`
+sed -i '/#trojan$/a\### '"$user $exp"'\
+},{"password": "'""$key""'","email": "'""$user""'"' /etc/xray/trojan.json
+sed -i '/#trojangrpc$/a\### '"$user $exp"'\
+},{"password": "'""$key""'","email": "'""$user""'"' /etc/xray/trojan-grpc.json
+systemctl restart xray
+systemctl restart xray@trojan
+systemctl restart xray@trojan-grpc

@@ -1,0 +1,33 @@
+#!/bin/bash
+data=( `cat /etc/xray/trojan.json | grep '^###' | cut -d ' ' -f 2`);
+now=`date +"%T"`
+for user in "${data[@]}"
+do
+exp=$(grep -w "^### $user" "/etc/xray/trojan.json" | cut -d ' ' -f 3)
+d1=$(date -d "$exp" +%s)
+d2=$(date -d "$now" +%s)
+exp2=$(( (d1 - d2) / 60 ))
+if [[ "$exp2" = "0" ]]; then
+sed -i "/^### $user $exp/,/^},{/d" /etc/xray/trojan.json
+sed -i "/^### $user $exp/,/^},{/d" /etc/xray/trojan-grpc.json
+systemctl restart xray@trojan
+systemctl restart xray@trojan-grpc
+fi
+done
+data=( `cat /etc/xray/vmess.json | grep '^###' | cut -d ' ' -f 2`);
+now=`date +"%T"`
+for user in "${data[@]}"
+do
+exp=$(grep -w "^### $user" "/etc/xray/vmess.json" | cut -d ' ' -f 3)
+d1=$(date -d "$exp" +%s)
+d2=$(date -d "$now" +%s)
+exp2=$(( (d1 - d2) / 60 ))
+if [[ "$exp2" = "0" ]]; then
+sed -i "/^### $user $exp/,/^},{/d" /etc/xray/vmess.json
+sed -i "/^### $user $exp/,/^},{/d" /etc/xray/vmess-grpc.json
+systemctl restart xray@vmess
+systemctl restart xray@vmess-grpc
+fi
+done
+
+
