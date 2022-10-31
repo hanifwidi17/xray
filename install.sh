@@ -25,6 +25,7 @@ sysctl -w net.ipv6.conf.default.disable_ipv6=1
 apt update
 apt upgrade
 apt install -y bzip2 gzip coreutils screen curl unzip
+timedatectl set-timezone Asia/Jakarta
 sleep 2
 echo -e "Install Nginx..."
 sleep 2
@@ -56,7 +57,22 @@ wget -O /usr/bin/exp-trial --no-check-certificate https://raw.githubusercontent.
 wget -O /usr/bin/exp-akun --no-check-certificate https://raw.githubusercontent.com/hanifwidi17/xray/main/exp-akun
 wget -O /usr/bin/renew-trojan --no-check-certificate https://raw.githubusercontent.com/hanifwidi17/xray/main/renew-trojan
 wget -O /usr/bin/renew-ws --no-check-certificate https://raw.githubusercontent.com/hanifwidi17/xray/main/renew-ws
+wget -O /usr/bin/trial-trojan --no-check-certificate https://raw.githubusercontent.com/hanifwidi17/xray/main/trial-trojan
+wget -O /usr/bin/trial-ws --no-check-certificate https://raw.githubusercontent.com/hanifwidi17/xray/main/trial-ws
 wget -O /etc/xray/trojan.json --no-check-certificate https://raw.githubusercontent.com/hanifwidi17/xray/main/trojan.json
 wget -O /etc/xray/trojan-grpc.json --no-check-certificate https://raw.githubusercontent.com/hanifwidi17/xray/main/trojan-grpc.json
 wget -O /etc/xray/vmess.json --no-check-certificate https://raw.githubusercontent.com/hanifwidi17/xray/main/vmess.json
 wget -O /etc/xray/vmess-grpc.json --no-check-certificate https://raw.githubusercontent.com/hanifwidi17/xray/main/vmess-grpc.json
+chmod +x /usr/bin/add-trojan
+chmod +x /usr/bin/add-ws
+chmod +x /usr/bin/trial-trojan
+chmod +x /usr/bin/trial-ws
+chmod +x /usr/bin/renew-trojan
+chmod +x /usr/bin/renew-ws
+chmod +x /usr/bin/exp-trial
+chmod +x /usr/bin/exp-akun
+systemctl enable xray@trojan
+systemctl enable xray@trojan-grpc
+systemctl enable xray@vmess
+systemctl enable xray@vmess-grpc
+systemctl restart nginx
